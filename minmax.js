@@ -105,25 +105,35 @@ function minmax(state) {
 }
 
 function aiMove(state) {
-  var possibleMoves = game.moves();
   var possibleScores = [];
-  possibleMoves.map(function(el) {
+  var possibleMoves = [];
+  var possibleStates = state.moves().map(function(el) {
     var newState = new State(state);
-    newState.board[el] = 'O';
+    possibleMoves.push(el);
+    newState.board[el] = 'X';
+    newState.advanceTurn();
     possibleScores.push(minmax(newState));
+    return newState;
   });
-
   function indexOfMax(arr) {
     var max = arr.reduce(function(a,b) {
       return b > a ? b : a;   
     });
     return arr.indexOf(max);
   }
-  return possibleMoves[indexOfMax(possibleScores)];
+  function indexOfMin(arr) {
+    var min = arr.reduce(function(a,b) {
+      return b < a ? b : a;   
+    });
+    return arr.indexOf(min);
+  }
+  return possibleMoves[indexOfMin(possibleScores)];
 }  
 
 //var game = new State();
-//game.board = ['X','X','O',
-//              'E','O','E',
-//              'E','E','E']
-//console.log(aiMove(game));
+//game.board = ['X','O','O',
+//              'X','E','X',
+//              'O','X','E']
+//game.turn = 'X';
+//aiMove(game);
+
