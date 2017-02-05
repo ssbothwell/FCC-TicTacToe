@@ -122,8 +122,8 @@ function aiMove(state) {
   return possibleMoves[indexOfMax(possibleScores)];
 }  
 
-var game = new State();
-game.board = ['O','E','X',
-              'X','E','E',
-              'X','O','O']
-console.log(aiMove(game));
+//var game = new State();
+//game.board = ['X','X','O',
+//              'E','O','E',
+//              'E','E','E']
+//console.log(aiMove(game));
