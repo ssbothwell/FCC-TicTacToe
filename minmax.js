@@ -35,6 +35,10 @@ function State(old) {
         this.result = this.board[a];
         return true;
       } 
+    } 
+    if (this.moves().length < 1) {
+        this.result = 'DRAW';
+        return true;
     }
     return false;
   }
@@ -110,11 +114,16 @@ function aiMove(state) {
   var possibleStates = state.moves().map(function(el) {
     var newState = new State(state);
     possibleMoves.push(el);
-    newState.board[el] = 'X';
+    newState.board[el] = 'O';
     newState.advanceTurn();
     possibleScores.push(minmax(newState));
     return newState;
   });
+  if (possibleMoves.length < 1) {
+    return -1;
+  }
+  console.log(possibleStates);
+  console.log(possibleScores);
   function indexOfMax(arr) {
     var max = arr.reduce(function(a,b) {
       return b > a ? b : a;   
@@ -130,10 +139,10 @@ function aiMove(state) {
   return possibleMoves[indexOfMin(possibleScores)];
 }  
 
-//var game = new State();
-//game.board = ['X','O','O',
-//              'X','E','X',
-//              'O','X','E']
-//game.turn = 'X';
-//aiMove(game);
-
+var game = new State();
+game.board = ['O','O','E',
+              'X','X','O',
+              'X','O','X']
+game.turn = 'X';
+console.log(minmax(game));
+//console.log(aiMove(game));
