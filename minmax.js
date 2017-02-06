@@ -65,22 +65,9 @@ function minmax(state) {
     } else {
       return 0;
     }
-  } else {
-      // This stores the minmax value for this state
-      // (computed recursively from further nested states)
-      var stateScore; 
-      // Set initial value for stateScore based on active
-      // player in this state. Values are simply, higher 
-      // lower then minmax scores to ensure conditionals
-      // are triggered correctly.
-      if (state.turn === 'X') {
-        stateScore = -1000;
-      } else {
-        stateScore = 1000;
-      }  
-    }  
+  } 
   
-  // 2) Generate list of possible new game states (moves) 
+  // Generate list of possible new game states (moves) 
   newStatesSet = state.moves().map(function (el) {
     var newState = new State(state);
     newState.board[el] = state.turn.slice(0);
@@ -89,16 +76,16 @@ function minmax(state) {
     return newState;
   });  
   
+  // Array to hold all child scores
   var newStateScores = [];
 
-  // 3) For each of these states, add the minmax score of 
+  // For each of these states, add the minmax score of 
   // that state to the scoreList
   newStatesSet.forEach(function(newState) {
     var newStateScore = minmax(newState);
     newStateScores.push(newStateScore);
   });
-  newScore = Math.min(...newStateScores);
-  stateScore = newScore;
+  stateScore = Math.min(...newStateScores);
   return stateScore;
 }
 
@@ -123,19 +110,13 @@ function aiMove(state) {
     });
     return arr.indexOf(max);
   }
-  function indexOfMin(arr) {
-    var min = arr.reduce(function(a,b) {
-      return b < a ? b : a;   
-    });
-    return arr.indexOf(min);
-  }
   return possibleMoves[indexOfMax(possibleScores)];
 }  
 
 var game = new State();
 game.board = ['E','E','E',
-              'E','E','E',
-              'X','E','E']
+              'O','E','E',
+              'X','E','X']
 game.turn = 'O';
 //console.log(minmax(game));
 console.log(aiMove(game));
