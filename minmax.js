@@ -88,23 +88,17 @@ function minmax(state) {
     newState.element = el;
     return newState;
   });  
+  
+  var newStateScores = [];
 
   // 3) For each of these states, add the minmax score of 
   // that state to the scoreList
   newStatesSet.forEach(function(newState) {
     var newStateScore = minmax(newState);
-    if (state.turn === 'X') {
-      // X wants to maximize. Updated on greater than.
-      if (newStateScore > stateScore) {
-        stateScore = newStateScore;
-      }  
-    } else {
-      // O wants to minimize. Updated on less than.
-      if (newStateScore < stateScore) {
-        stateScore = newStateScore;
-      }
-    }  
+    newStateScores.push(newStateScore);
   });
+  newScore = Math.min(...newStateScores);
+  stateScore = newScore;
   return stateScore;
 }
 
@@ -115,7 +109,6 @@ function aiMove(state) {
     var newState = new State(state);
     possibleMoves.push(el);
     newState.board[el] = 'O';
-    newState.advanceTurn();
     possibleScores.push(minmax(newState));
     return newState;
   });
@@ -136,13 +129,13 @@ function aiMove(state) {
     });
     return arr.indexOf(min);
   }
-  return possibleMoves[indexOfMin(possibleScores)];
+  return possibleMoves[indexOfMax(possibleScores)];
 }  
 
 var game = new State();
-game.board = ['O','O','E',
-              'X','X','O',
-              'X','O','X']
-game.turn = 'X';
-console.log(minmax(game));
-//console.log(aiMove(game));
+game.board = ['E','E','E',
+              'E','E','E',
+              'X','E','E']
+game.turn = 'O';
+//console.log(minmax(game));
+console.log(aiMove(game));
