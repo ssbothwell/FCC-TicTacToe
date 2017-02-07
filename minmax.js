@@ -3,14 +3,14 @@ function State(old) {
   // Prior board states can be loaded in during minmax recursion
   if (typeof old !== 'undefined') {
     this.board = old.board.slice(0);
+    this.turn = old.turn.slice(0);
   } else {
   // Otherwise start with empty board
     this.board = ['E','E','E','E','E','E','E','E','E'];  
+    this.turn = "X";
   }
   // Terminal game flag
   this.result = 'active';
-  // Current player flag
-  this.turn = "X";
   // Label to identify move that results in this state during recursion
   this.element = "";
   // Function to switch active player for minmax scoring
@@ -75,7 +75,6 @@ function minmax(state) {
     newState.element = el;
     return newState;
   });  
-  
   // Array to hold all child scores
   var newStateScores = [];
 
@@ -85,7 +84,11 @@ function minmax(state) {
     var newStateScore = minmax(newState);
     newStateScores.push(newStateScore);
   });
-  stateScore = Math.min(...newStateScores);
+  if (state.turn === 'X') {
+    stateScore = Math.min(...newStateScores);
+  } else {
+    stateScore = Math.max(...newStateScores);
+  }
   return stateScore;
 }
 
@@ -115,8 +118,8 @@ function aiMove(state) {
 
 var game = new State();
 game.board = ['E','E','E',
-              'O','E','E',
-              'X','E','X']
-game.turn = 'O';
+              'E','E','E',
+              'X','E','E']
+game.turn = 'X';
 //console.log(minmax(game));
 console.log(aiMove(game));
