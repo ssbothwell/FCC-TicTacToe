@@ -7,8 +7,10 @@ window.onload = function() {
     function clickHandler(i) {
       squares[i].onclick = function() {
         if (squares[i].innerHTML === "") {
-          squares[i].innerHTML = 'X';
-          updateBoard(i, game);
+          if (game.isTerminal() === false) {
+            squares[i].innerHTML = 'X';
+            updateBoard(i, game);
+          }
         }
       }  
     }
@@ -29,7 +31,21 @@ window.onload = function() {
         statusArea[1].innerHTML = state.result + ' WINS!!';
       }  
       statusArea[3].innerHTML = "Click <a href='#' id='newGame'>here</a> to play again"; 
+      var newGame = document.querySelector('#newGame');
+      newGame.onclick = function() {
+        resetGame(state);
+      }  
       return;
     }
   }
+
+  function resetGame(state) {
+    state.board = state.board.map(function() {return "E";});
+    squares.forEach(function(el) {
+      el.innerHTML = '';
+    });  
+    statusArea[1].innerHTML = '';
+    statusArea[3].innerHTML = '';
+
+  }  
 }
