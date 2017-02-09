@@ -105,8 +105,6 @@ function aiMove(state) {
   if (possibleMoves.length < 1) {
     return -1;
   }
-  console.log(possibleStates);
-  console.log(possibleScores);
   function indexOfMax(arr) {
     var max = arr.reduce(function(a,b) {
       return b > a ? b : a;   
@@ -116,10 +114,11 @@ function aiMove(state) {
   return possibleMoves[indexOfMax(possibleScores)];
 }  
 
-var game = new State();
-game.board = ['E','E','E',
-              'E','E','E',
-              'X','E','E']
-game.turn = 'X';
+//var game = new State();
+//game.board = ['O','X','X',
+//              'X','O','O',
+//              'X','O','X']
+//game.turn = 'X';
+//console.log(game.isTerminal());
 //console.log(minmax(game));
-console.log(aiMove(game));
+//console.log(aiMove(game));
