@@ -2,13 +2,20 @@ window.onload = function() {
   var squares = document.querySelectorAll('.square');
   var statusArea = document.querySelector('#statusArea');
   var statusArea= document.querySelector('#statusArea').childNodes;
+  var x = document.querySelector('#X');
+  var o = document.querySelector('#O');
+  
+  var player = 'X';
+  var aiPlayer = 'O';
   var game = new State();
+
+
   for (var i = 0; i < squares.length; i++) {
     function clickHandler(i) {
       squares[i].onclick = function() {
         if (squares[i].innerHTML === "") {
           if (game.isTerminal() === false) {
-            squares[i].innerHTML = 'X';
+            squares[i].innerHTML = player;
             updateBoard(i, game);
           }
         }
@@ -16,13 +23,27 @@ window.onload = function() {
     }
     clickHandler(i);
   }
+  
+  x.onclick = function() {
+    player = 'X';
+    aiPlayer = 'O';
+    statusArea[1].innerHTML = '';
+    statusArea[3].innerHTML = ''; 
+  }  
+
+  o.onclick = function() {
+    player = 'O';
+    aiPlayer = 'X';
+    statusArea[1].innerHTML = '';
+    statusArea[3].innerHTML = ''; 
+  }  
 
   function updateBoard(playerMove, state) {
-    state.board[playerMove] = 'X';
+    state.board[playerMove] = player;
     if (state.isTerminal() === false) {
       var ai = aiMove(state);
-      game.board[ai] = 'O';
-      squares[ai].innerHTML = 'O';
+      game.board[ai] = aiPlayer;
+      squares[ai].innerHTML = aiPlayer;
    } 
    if (state.isTerminal() === true) {   
       if (state.result === 'DRAW') {
@@ -45,7 +66,11 @@ window.onload = function() {
       el.innerHTML = '';
     });  
     statusArea[1].innerHTML = '';
-    statusArea[3].innerHTML = '';
+    statusArea[3].innerHTML = "Do you want to play <a href='#' id='X'>X</a> or <a href='#' id='O'>O</a>?";
 
   }  
+
+  function selectPlayer(symbol) {
+    return;
+  }
 }
