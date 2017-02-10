@@ -17,7 +17,7 @@ window.onload = function() {
           if (squares[i].innerHTML === "") {
             if (game.isTerminal() === false) {
               squares[i].innerHTML = player;
-              updateBoard(i, game);
+              setTimeout(function () { updateBoard(i, game);}, 500);
             }
           }
         }
@@ -62,7 +62,7 @@ window.onload = function() {
    } 
    if (state.isTerminal() === true) {   
       if (state.result === 'DRAW') {
-        statusArea[1].innerHTML = 'DRAW!!!';
+        statusArea[1].innerHTML = 'DRAW!!';
       } else {
         statusArea[1].innerHTML = state.result + ' WINS!!';
       }  
