@@ -56,4 +56,5 @@ body {
 #statusArea {
   display: block;
   margin-top: 50px;
+  width: 100%;
 }  

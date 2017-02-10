@@ -2,9 +2,9 @@ window.onload = function() {
   var squares = document.querySelectorAll('.square');
   var statusArea = document.querySelector('#statusArea');
   var statusArea= document.querySelector('#statusArea').childNodes;
+  var chooseSymbol = document.querySelector('#chooseSymbol');
   var x = document.querySelector('#X');
   var o = document.querySelector('#O');
-  
   var player = 'X';
   var aiPlayer = 'O';
   var game = new State();
@@ -27,16 +27,24 @@ window.onload = function() {
   x.onclick = function() {
     player = 'X';
     aiPlayer = 'O';
-    statusArea[1].innerHTML = '';
-    statusArea[3].innerHTML = ''; 
+    chooseSymbol.style.display = 'none';
   }  
 
   o.onclick = function() {
     player = 'O';
     aiPlayer = 'X';
-    statusArea[1].innerHTML = '';
-    statusArea[3].innerHTML = ''; 
+    var firstMove = getRandomInt(0,8);
+    squares[firstMove].innerHTML = 'X';
+    game.board[firstMove] = 'X';
+    chooseSymbol.style.display = 'none';
+
   }  
+  
+  function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 
   function updateBoard(playerMove, state) {
     state.board[playerMove] = player;
@@ -69,8 +77,4 @@ window.onload = function() {
     statusArea[3].innerHTML = "Do you want to play <a href='#' id='X'>X</a> or <a href='#' id='O'>O</a>?";
 
   }  
-
-  function selectPlayer(symbol) {
-    return;
-  }
 }
