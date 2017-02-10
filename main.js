@@ -5,18 +5,21 @@ window.onload = function() {
   var chooseSymbol = document.querySelector('#chooseSymbol');
   var x = document.querySelector('#X');
   var o = document.querySelector('#O');
-  var player = 'X';
-  var aiPlayer = 'O';
+  var player;
+  var aiPlayer;
+  var playerHasPicked = false;
   var game = new State();
-
+  
 
   for (var i = 0; i < squares.length; i++) {
     function clickHandler(i) {
       squares[i].onclick = function() {
-        if (squares[i].innerHTML === "") {
-          if (game.isTerminal() === false) {
-            squares[i].innerHTML = player;
-            updateBoard(i, game);
+        if (playerHasPicked === true) {
+          if (squares[i].innerHTML === "") {
+            if (game.isTerminal() === false) {
+              squares[i].innerHTML = player;
+              updateBoard(i, game);
+            }
           }
         }
       }  
@@ -27,12 +30,14 @@ window.onload = function() {
   x.onclick = function() {
     player = 'X';
     aiPlayer = 'O';
+    playerHasPicked = true;
     chooseSymbol.style.display = 'none';
   }  
 
   o.onclick = function() {
     player = 'O';
     aiPlayer = 'X';
+    playerHasPicked = true;
     var firstMove = getRandomInt(0,8);
     squares[firstMove].innerHTML = 'X';
     game.board[firstMove] = 'X';
@@ -63,6 +68,7 @@ window.onload = function() {
       var newGame = document.querySelector('#newGame');
       newGame.onclick = function() {
         resetGame(state);
+        playerHasPicked = false;
       }  
       return;
     }
@@ -74,7 +80,8 @@ window.onload = function() {
       el.innerHTML = '';
     });  
     statusArea[1].innerHTML = '';
-    statusArea[3].innerHTML = "Do you want to play <a href='#' id='X'>X</a> or <a href='#' id='O'>O</a>?";
+    statusArea[3].innerHTML = ''; 
+    chooseSymbol.style.display = 'block';
 
   }  
 }
