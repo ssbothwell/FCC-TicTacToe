@@ -40,7 +40,7 @@ window.onload = function() {
     game.aiSymbol = 'X';
     game.playerSymbol = 'O';
     var firstMove = getRandomInt(0,8);
-    squares[firstMove].innerHTML = 'X';
+    setInterval(function(){ squares[firstMove].innerHTML = 'X';}, 500);
     game.board[firstMove] = 'X';
     game.turn = 'O';
     console.log(game.turn);
