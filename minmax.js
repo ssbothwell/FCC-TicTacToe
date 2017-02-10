@@ -4,15 +4,15 @@ function State(old) {
   if (typeof old !== 'undefined') {
     this.board = old.board.slice(0);
     this.turn = old.turn.slice(0);
+    this.aiSymbol = old.aiSymbol.slice(0);
+    this.playerSymbol = old.playerSymbol.slice(0);
   } else {
-  // Otherwise start with empty board
+  // Otherwise start with empty board, and player is X
     this.board = ['E','E','E','E','E','E','E','E','E'];  
     this.turn = 'X';
+    this.aiSymbol = 'O';
+    this.playerSymbol = 'X';
   }
-  // AI is X or O, defaults to O
-  this.aiSymbol = 'O';
-  // Player is X or O, defaults to X
-  this.playerSymbol = 'X';
   // Terminal game flag
   this.result = 'active';
   // Label to identify move that results in this state during recursion
@@ -62,7 +62,6 @@ function State(old) {
 function minmax(state) {
   // 1) If the state is terminal, return the score from O's perspective
   if (state.isTerminal() === true) {
-  console.log(state.playerSymbol);
     if (state.result === state.playerSymbol) {
       return  -10; 
     } else if (state.result === state.aiSymbol) {  
@@ -89,7 +88,7 @@ function minmax(state) {
     var newStateScore = minmax(newState);
     newStateScores.push(newStateScore);
   });
-  if (state.turn === 'O') {
+  if (state.turn === state.playerSymbol) {
     stateScore = Math.min(...newStateScores);
   } else {
     stateScore = Math.max(...newStateScores);
@@ -119,13 +118,12 @@ function aiMove(state) {
   return possibleMoves[indexOfMax(possibleScores)];
 }  
 
-var game = new State();
-game.board = ['O','X','O',
-              'E','E','E',
-              'X','E','X']
-game.turn = 'O';
-game.aiSymbol = 'X';
-game.playerSymbol = 'O';
-console.log(game.aiSymbol);
-//console.log(minmax(game));
-console.log(aiMove(game));
+//var game = new State();
+//game.board = ['O','X','O',
+//              'E','E','E',
+//              'X','E','X']
+//game.turn = 'O';
+//game.aiSymbol = 'X';
+//game.playerSymbol = 'O';
+////console.log(minmax(game));
+//console.log(aiMove(game));
