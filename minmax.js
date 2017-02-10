@@ -7,15 +7,19 @@ function State(old) {
   } else {
   // Otherwise start with empty board
     this.board = ['E','E','E','E','E','E','E','E','E'];  
-    this.turn = "X";
+    this.turn = 'X';
   }
+  // AI is X or O, defaults to O
+  this.aiSymbol = 'O';
+  // Player is X or O, defaults to X
+  this.playerSymbol = 'X';
   // Terminal game flag
   this.result = 'active';
   // Label to identify move that results in this state during recursion
-  this.element = "";
+  this.element = '';
   // Function to switch active player for minmax scoring
   this.advanceTurn = function() {
-    this.turn = this.turn === "X" ? "O" : "X";
+    this.turn = this.turn === 'X' ? 'O' : 'X';
   }
   // Function to determine if game is complete
   this.isTerminal = function() {
@@ -58,9 +62,10 @@ function State(old) {
 function minmax(state) {
   // 1) If the state is terminal, return the score from O's perspective
   if (state.isTerminal() === true) {
-    if (state.result === 'X') {
+  console.log(state.playerSymbol);
+    if (state.result === state.playerSymbol) {
       return  -10; 
-    } else if (state.result === 'O') {  
+    } else if (state.result === state.aiSymbol) {  
       return 10;
     } else {
       return 0;
@@ -84,7 +89,7 @@ function minmax(state) {
     var newStateScore = minmax(newState);
     newStateScores.push(newStateScore);
   });
-  if (state.turn === 'X') {
+  if (state.turn === 'O') {
     stateScore = Math.min(...newStateScores);
   } else {
     stateScore = Math.max(...newStateScores);
@@ -98,7 +103,7 @@ function aiMove(state) {
   var possibleStates = state.moves().map(function(el) {
     var newState = new State(state);
     possibleMoves.push(el);
-    newState.board[el] = 'O';
+    newState.board[el] = state.aiSymbol;
     possibleScores.push(minmax(newState));
     return newState;
   });
@@ -114,11 +119,13 @@ function aiMove(state) {
   return possibleMoves[indexOfMax(possibleScores)];
 }  
 
-//var game = new State();
-//game.board = ['O','X','X',
-//              'X','O','O',
-//              'X','O','X']
-//game.turn = 'X';
-//console.log(game.isTerminal());
+var game = new State();
+game.board = ['O','X','O',
+              'E','E','E',
+              'X','E','X']
+game.turn = 'O';
+game.aiSymbol = 'X';
+game.playerSymbol = 'O';
+console.log(game.aiSymbol);
 //console.log(minmax(game));
-//console.log(aiMove(game));
+console.log(aiMove(game));

@@ -9,7 +9,6 @@ window.onload = function() {
   var aiPlayer;
   var playerHasPicked = false;
   var game = new State();
-  
 
   for (var i = 0; i < squares.length; i++) {
     function clickHandler(i) {
@@ -38,11 +37,14 @@ window.onload = function() {
     player = 'O';
     aiPlayer = 'X';
     playerHasPicked = true;
+    game.aiSymbol = 'X';
+    game.playerSymbol = 'O';
     var firstMove = getRandomInt(0,8);
     squares[firstMove].innerHTML = 'X';
     game.board[firstMove] = 'X';
+    game.turn = 'O';
+    console.log(game.turn);
     chooseSymbol.style.display = 'none';
-
   }  
   
   function getRandomInt(min, max) {
